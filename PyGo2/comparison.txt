@@ -1,0 +1,31 @@
+Main.py 30/12/2023 (W. tt)
+----------------------------------------------------------------------
+FEN: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 
+Depth: 2
+Eval: 60
+Nodes: 368
+Time ms 12820
+NPS: 28
+Bestmove: e2a6
+
+Main.py 30/12/2023 (w/o tt)
+----------------------------------------------------------------------
+FEN: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 
+Depth: 2
+Eval: 60
+Nodes: 368
+Time ms 11919
+NPS: 30
+Bestmove: e2a6
+
+!!-- NPS error above^^ forgot to take in quiescence nodes--!!
+
+Main.py 30/12/2023 (better move ordering)
+----------------------------------------------------------------------
+FEN: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 
+Depth: 2
+Eval: 60
+Nodes: 4052
+Time ms 4540
+NPS: 892
+Bestmove: e2a6
