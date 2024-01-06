@@ -29,3 +29,14 @@ Nodes: 4052
 Time ms 4540
 NPS: 892
 Bestmove: e2a6
+
+
+Main.py 2/1/2023 (RFP + Tapered eval + unbounded quiescence search)
+----------------------------------------------------------------------
+FEN: r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 
+Depth: 2
+Eval: 59.75
+Nodes: 71904
+Time ms 36061
+NPS: 1993
+Bestmove: e2a6

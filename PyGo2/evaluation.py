@@ -1,6 +1,7 @@
 import chess
 from psqt import *
 from piece_values import *
+from game_phase import gamePhaseInc
 
 def is_endgame(board):
   # Check if there are no major pieces
@@ -34,7 +35,9 @@ def is_endgame(board):
   return False
 
 def evaluate_board(board):
-    score = 0
+    mgScore = 0
+    egScore = 0
+    gamePhase = 0
 
     # Iterate through all squares on the board
     for square in chess.SQUARES:
@@ -43,43 +46,56 @@ def evaluate_board(board):
         if piece is None:
             continue  # Skip empty squares
 
+        gamePhase += gamePhaseInc[piece.piece_type]
+
         if piece.color == chess.WHITE:
-            score += piece_values[piece.piece_type]
+            mgScore += piece_values_mid[piece.piece_type]
+            egScore += piece_values_end[piece.piece_type]
             square = 0b111_000 ^ square
             # Add position value based on piece-square table
             if piece.piece_type == chess.PAWN:
-                score += psqt_pawn[square]
+                mgScore += psqt_midpawn[square]
+                egScore += psqt_endpawn[square]
             elif piece.piece_type == chess.KNIGHT:
-                score += psqt_knight[square]
+                mgScore += psqt_midknight[square]
+                egScore += psqt_endknight[square]
             elif piece.piece_type == chess.BISHOP:
-                score += psqt_bishop[square]
+                mgScore += psqt_midbishop[square]
+                egScore += psqt_endbishop[square]
             elif piece.piece_type == chess.ROOK:
-                score += psqt_rook[square]
+                mgScore += psqt_midrook[square]
+                egScore += psqt_endrook[square]
             elif piece.piece_type == chess.QUEEN:
-                score += psqt_queen[square]
+                mgScore += psqt_midqueen[square]
+                egScore += psqt_endqueen[square]
             elif piece.piece_type == chess.KING:
-                if is_endgame(board):
-                    score += psqt_endking[square]
-                else:
-                    score += psqt_midking[square]
+                mgScore += psqt_midking[square]
+                egScore += psqt_endking[square]
         else:
-            score -= piece_values[piece.piece_type]
+            mgScore -= piece_values_mid[piece.piece_type]
+            egScore -= piece_values_end[piece.piece_type]
             # Subtracting position value based on piece-square table
             if piece.piece_type == chess.PAWN:
-                score -= psqt_pawn[square]
+                mgScore -= psqt_midpawn[square]
+                egScore -= psqt_endpawn[square]
             elif piece.piece_type == chess.KNIGHT:
-                score -= psqt_knight[square]
+                mgScore -= psqt_midknight[square]
+                egScore -= psqt_endknight[square]
             elif piece.piece_type == chess.BISHOP:
-                score -= psqt_bishop[square]
+                mgScore -= psqt_midbishop[square]
+                egScore -= psqt_endbishop[square]
             elif piece.piece_type == chess.ROOK:
-                score -= psqt_rook[square]
+                mgScore -= psqt_midrook[square]
+                egScore -= psqt_endrook[square]
             elif piece.piece_type == chess.QUEEN:
-                score -= psqt_queen[square]
+                mgScore -= psqt_midqueen[square]
+                egScore -= psqt_endqueen[square]
             elif piece.piece_type == chess.KING:
-                if is_endgame(board):
-                    score -= psqt_endking[square]
-                else:
-                    score -= psqt_midking[square]
+                mgScore -= psqt_midking[square]
+                egScore -= psqt_endking[square]
+    mgPhase = gamePhase
+    if (mgPhase > 24): 
+        mgPhase = 24 # in case of early promotion 
 
-
-    return score
+    egPhase = 24 - mgPhase
+    return (mgScore * mgPhase + egScore * egPhase) / 24
